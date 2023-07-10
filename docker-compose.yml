@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  moodle:
+    image: moodlehq/moodle-php-apache:7.4
+    ports:
+      - 8001:80
+      - 8002:443
+    volumes:
+      - c:/developer/docker/mooc/mdata:/var/www/moodledata
+      - c:/developer/docker/mooc/html:/var/www/html
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_DATABASE=mdl_moocedu_2023
+      - MYSQL_USER=moodle
+      - MYSQL_PASSWORD=moodle
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 8006:3306
+    volumes:
+      - moodle41db:/var/lib/mysql
+
+volumes:
+  moodle41db:
